@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="cd.js"></script>
+    <link href="cd.css" rel="Stylesheet" type="text/css" />
+    <title>cal</title>
+  </head>
+  <body>
+    <div id="cal"></div>
+  </body>
+
+  <script>
+    window.onload = function () {
+      function addDays(days) {
+        const date = new Date();
+        date.setDate(date.getDate() + days);
+        return date;
+      }
+
+      window.starrezCalendar(5, 2021, {
+        elem: document.getElementById("cal"),
+        previousSelection: new Date(2021, 4, 7),
+        currentSelection: new Date(2021, 4, 14),
+        onClick: (d) => alert(d),
+        available: [new Date(), addDays(1), addDays(7), addDays(30)]
+      });
+    };
+  </script>
+</html>
