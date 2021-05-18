@@ -14,6 +14,7 @@
 
 (function starrezCalendar() {
   window.starrezCalendar = (month, year, options) => {
+    
     function createCalendar(month, year) {
       const elem = options.elem;
       elem.classList.add("starrezCalendar");
@@ -63,6 +64,7 @@
           newMonth = 1;
           newYear = year + 1;
         }
+        
         createCalendar(newMonth, newYear);
       };
 
@@ -135,7 +137,10 @@
         button.dataset.date = d.toDateString();
 
         button.onclick = function () {
-          options.onClick(new Date(this.dataset.date));
+          const d = new Date(this.dataset.date);
+          options.currentSelection = d;
+          options.onClick(d);
+          createCalendar(month, year)
         };
 
         button.innerText = d.getDate();
@@ -143,10 +148,13 @@
 
         if (isToday(d)) {
           button.classList.add("today");
+          button.title = "Today";
         }
 
-        if (hasData(d)) {
+        const itemAvail = hasData(d);
+        if (itemAvail) {
           button.classList.add("has-data");
+          button.title = itemAvail.message;
         }
 
         if (isDate(d, options.previousSelection)) {
@@ -181,11 +189,13 @@
     }
 
     function isDate(d, e) {
-      return (
-        d.getDate() === e.getDate() &&
-        d.getMonth() === e.getMonth() &&
-        d.getFullYear() === e.getFullYear()
-      );
+      if (e) {
+        return (
+          d.getDate() === e.getDate() &&
+          d.getMonth() === e.getMonth() &&
+          d.getFullYear() === e.getFullYear()
+        );
+      }
     }
 
     function isToday(someDate) {
@@ -206,9 +216,9 @@
       if (options.available) {
         var found = options.available.find((e) => {
           return (
-            d.getDate() === e.getDate() &&
-            d.getMonth() === e.getMonth() &&
-            d.getFullYear() === e.getFullYear()
+            d.getDate() === e.date.getDate() &&
+            d.getMonth() === e.date.getMonth() &&
+            d.getFullYear() === e.date.getFullYear()
           );
         });
 

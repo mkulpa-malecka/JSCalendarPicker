@@ -9,7 +9,7 @@
     <title>cal</title>
   </head>
   <body>
-    <div id="cal"></div>
+    <div style="max-width: 400px" id="cal"></div>
   </body>
 
   <script>
@@ -22,10 +22,29 @@
 
       window.starrezCalendar(5, 2021, {
         elem: document.getElementById("cal"),
-        previousSelection: new Date(2021, 4, 7),
+        // previousSelection: new Date(2021, 4, 7),
         currentSelection: new Date(2021, 4, 14),
-        onClick: (d) => alert(d),
-        available: [new Date(), addDays(1), addDays(7), addDays(30)]
+        onClick: (d) => console.log(d),
+        available: [{
+          date: new Date(),
+          message: "5 slots available"
+        },
+        {
+          date: addDays(1),
+          message: "90 slots available"
+        },
+        {
+          date:  addDays(7),
+          message: "10 slots available"
+        },
+        {
+          date: addDays(30),
+          message: "15 slots available"
+        },
+        {
+          date: addDays(60),
+          message: ""
+        }]
       });
     };
   </script>

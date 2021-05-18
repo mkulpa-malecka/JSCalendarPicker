@@ -4,7 +4,7 @@
 }
 
 .starrezCalendar {
-  width: 340px;
+  min-width: 300px;
   display: grid;
   gap: 24px;
   user-select: none;
@@ -12,6 +12,8 @@
 
 .starrezCalendar table {
   width: 100%;
+  border-spacing: 2px;
+  border-collapse: separate;
 }
 
 .starrezCalendar table thead th {
@@ -25,6 +27,10 @@
   color: #12374e;
 }
 
+.starrezCalendar table tbody td  {
+  text-align: center;
+}
+
 .starrezCalendar_button {
   height: 40px;
   width: 40px;
@@ -35,7 +41,8 @@
   color: #0341e0;
   cursor: pointer;
   position: relative;
-  border: 1px solid transaparent;
+  border: 1px solid transparent;
+  transition: all ease-in-out 0.2s;
 }
 
 .starrezCalendar_button.today:after {
@@ -86,9 +93,9 @@
 .starrezCalendar_header_button {
   height: 40px;
   min-width: 40px;
-  padding: none;
-  margin: none;
-  border: none;
+  padding: 0 8px;
+  margin: 0;
+  border: 0;
   background: none;
   cursor: pointer;
   font-style: normal;
@@ -98,6 +105,9 @@
   letter-spacing: 0.02em;
   color: #12374e;
   border-radius: 5px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
 }
 
 .starrezCalendar_header_button:hover {
