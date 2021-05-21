@@ -95,17 +95,10 @@
       return new Promise(resolve => resolve(elem));
     }
 
-    function getDay(date) {
-      // get day number from 0 (monday) to 6 (sunday)
-      let day = date.getDay();
-      if (day === 0) day = 7; // make Sunday (0) the last day
-      return day - 1;
-    }
-
     function buildTableHeader() {
       const thead = document.createElement("thead");
       const tableHeader = document.createElement("tr");
-      const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+      const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       days.forEach((day) => {
         const th = document.createElement("th");
@@ -126,7 +119,7 @@
       let tr = document.createElement("tr");
 
       // * * * 1  2  3  4
-      for (let i = 0; i < getDay(d); i++) {
+      for (let i = 0; i < d.getDay(); i++) {
         const td = document.createElement("td");
         // add the previous month here
         tr.append(td);
@@ -207,15 +200,15 @@
         td.append(button);
         tr.append(td);
 
-        if (getDay(d) % 7 === 6) {
+        if (d.getDay() % 7 === 6) {
           tbody.append(tr);
           tr = document.createElement("tr");
         }
         d.setDate(d.getDate() + 1);
       }
 
-      if (getDay(d) !== 0) {
-        for (let i = getDay(d); i < 7; i++) {
+      if (d.getDay() !== 0) {
+        for (let i = d.getDay(); i < 7; i++) {
           const td = document.createElement("td");
           // add the next month here
           tr.append(td);
