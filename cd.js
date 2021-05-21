@@ -74,7 +74,8 @@
       today.classList.add("starrezCalendar_header_button");
       today.onclick = () => {
         const d = new Date();
-        createCalendar(d.getMonth() + 1, d.getFullYear());
+        createCalendar(d.getMonth() + 1, d.getFullYear())
+          .then(calendar => calendar.querySelector(`[data-date="${d.toDateString()}"]`).focus());
       };
 
       header.append(prev);
@@ -90,6 +91,8 @@
 
       elem.append(header);
       elem.append(tableElement);
+
+      return new Promise(resolve => resolve(elem));
     }
 
     function getDay(date) {
@@ -140,7 +143,43 @@
           const d = new Date(this.dataset.date);
           options.currentSelection = d;
           options.onClick(d);
+
+          // Calendar is recreated so we need to find what the current day is
+          // and focus on it.
           createCalendar(month, year)
+            .then(calendar => calendar.getElementsByClassName('current')[0].focus());
+        };
+
+        button.onkeydown = function (e) {
+          const key = e.key;
+          const cell = e.target.parentElement
+          let cellIndex = cell.cellIndex;
+          let rowIndex = cell.parentElement.rowIndex - 1;
+
+          switch (key) {
+            case "ArrowUp":
+              rowIndex--;  
+              break;
+            case "ArrowDown":
+              rowIndex++;
+              break;
+            case "ArrowLeft":
+              cellIndex--;
+              break;
+            case "ArrowRight":
+              cellIndex++;
+              break;
+            default:
+              break;
+          }
+
+          if (tbody.rows[rowIndex] && tbody.rows[rowIndex].cells[cellIndex]) {
+            const targetCell = tbody.rows[rowIndex].cells[cellIndex];
+
+            if (targetCell && targetCell.getElementsByTagName("button").length) {
+              targetCell.getElementsByTagName("button")[0].focus();
+            }  
+          }
         };
 
         button.innerText = d.getDate();
