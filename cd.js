@@ -74,7 +74,8 @@
       today.classList.add("starrezCalendar_header_button");
       today.onclick = () => {
         const d = new Date();
-        createCalendar(d.getMonth() + 1, d.getFullYear());
+        createCalendar(d.getMonth() + 1, d.getFullYear())
+          .then(calendar => calendar.querySelector(`[data-date="${d.toDateString()}"]`).focus());
       };
 
       header.append(prev);
@@ -90,19 +91,14 @@
 
       elem.append(header);
       elem.append(tableElement);
-    }
 
-    function getDay(date) {
-      // get day number from 0 (monday) to 6 (sunday)
-      let day = date.getDay();
-      if (day === 0) day = 7; // make Sunday (0) the last day
-      return day - 1;
+      return new Promise(resolve => resolve(elem));
     }
 
     function buildTableHeader() {
       const thead = document.createElement("thead");
       const tableHeader = document.createElement("tr");
-      const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+      const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       days.forEach((day) => {
         const th = document.createElement("th");
@@ -123,7 +119,7 @@
       let tr = document.createElement("tr");
 
       // * * * 1  2  3  4
-      for (let i = 0; i < getDay(d); i++) {
+      for (let i = 0; i < d.getDay(); i++) {
         const td = document.createElement("td");
         // add the previous month here
         tr.append(td);
@@ -140,7 +136,43 @@
           const d = new Date(this.dataset.date);
           options.currentSelection = d;
           options.onClick(d);
+
+          // Calendar is recreated so we need to find what the current day is
+          // and focus on it.
           createCalendar(month, year)
+            .then(calendar => calendar.getElementsByClassName('current')[0].focus());
+        };
+
+        button.onkeydown = function (e) {
+          const key = e.key;
+          const cell = e.target.parentElement
+          let cellIndex = cell.cellIndex;
+          let rowIndex = cell.parentElement.rowIndex - 1;
+
+          switch (key) {
+            case "ArrowUp":
+              rowIndex--;  
+              break;
+            case "ArrowDown":
+              rowIndex++;
+              break;
+            case "ArrowLeft":
+              cellIndex--;
+              break;
+            case "ArrowRight":
+              cellIndex++;
+              break;
+            default:
+              break;
+          }
+
+          if (tbody.rows[rowIndex] && tbody.rows[rowIndex].cells[cellIndex]) {
+            const targetCell = tbody.rows[rowIndex].cells[cellIndex];
+
+            if (targetCell && targetCell.getElementsByTagName("button").length) {
+              targetCell.getElementsByTagName("button")[0].focus();
+            }  
+          }
         };
 
         button.innerText = d.getDate();
@@ -168,15 +200,15 @@
         td.append(button);
         tr.append(td);
 
-        if (getDay(d) % 7 === 6) {
+        if (d.getDay() % 7 === 6) {
           tbody.append(tr);
           tr = document.createElement("tr");
         }
         d.setDate(d.getDate() + 1);
       }
 
-      if (getDay(d) !== 0) {
-        for (let i = getDay(d); i < 7; i++) {
+      if (d.getDay() !== 0) {
+        for (let i = d.getDay(); i < 7; i++) {
           const td = document.createElement("td");
           // add the next month here
           tr.append(td);
