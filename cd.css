@@ -81,7 +81,6 @@
   display: grid;
   grid-template-columns: 1fr 40px auto 40px;
   align-items: center;
-  padding-left: 10px;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
