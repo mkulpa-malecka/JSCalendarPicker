@@ -43,6 +43,7 @@
   position: relative;
   border: 1px solid transparent;
   transition: all ease-in-out 0.2s;
+  white-space: nowrap;
 }
 
 .starrezCalendar_button.today:after {
@@ -52,7 +53,7 @@
   position: absolute;
   border-bottom: 2px solid #d22866;
   bottom: 8px;
-  left: 10px;
+  left: 9px;
 }
 
 .starrezCalendar_button.has-data {
@@ -60,12 +61,16 @@
 }
 
 .starrezCalendar_button:hover {
-  background: #ebf6ff;
+  background: #F6F8FA;
 }
 
 .starrezCalendar_button.current {
   background: #0052cc;
   color: white;
+}
+
+.starrezCalendar_button.current.today:after {
+  border-bottom-color: white;
 }
 
 .starrezCalendar_button.previous {
@@ -110,5 +115,5 @@
 }
 
 .starrezCalendar_header_button:hover {
-  background: #ebf6ff;
+  background: #F6F8FA;
 }
