@@ -114,6 +114,11 @@
   justify-content: center;
 }
 
-.starrezCalendar_header_button:hover {
+.starrezCalendar_header_button:not([disabled]):hover {
   background: #F6F8FA;
+}
+
+.starrezCalendar_header_button[disabled] {
+  color: #C4C9D2;
+  cursor: not-allowed;
 }
