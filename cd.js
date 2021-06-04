@@ -68,7 +68,7 @@
         today.innerHTML = "Today";
         today.classList.add("starrezCalendar_header_button");
         today.onclick = () => {
-          const d = new Date();
+          const d = new Date(options.today);
           options.currentSelection = d;
           options.onClick(d);
           createCalendar(d.getMonth() + 1, d.getFullYear()).then((calendar) =>
@@ -239,7 +239,7 @@
       }
 
       function isToday(someDate) {
-        const today = new Date();
+        const today = new Date(options.today);
         return (
           someDate.getDate() === today.getDate() &&
           someDate.getMonth() === today.getMonth() &&
