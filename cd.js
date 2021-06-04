@@ -68,7 +68,9 @@
         today.innerHTML = "Today";
         today.classList.add("starrezCalendar_header_button");
         today.onclick = () => {
-          const d = new Date(options.today);
+          const d = new Date();
+          options.currentSelection = d;
+          options.onClick(d);
           createCalendar(d.getMonth() + 1, d.getFullYear()).then((calendar) =>
             calendar.querySelector(`[data-date="${d.toDateString()}"]`).focus()
           );
@@ -237,7 +239,7 @@
       }
 
       function isToday(someDate) {
-        const today = new Date(options.today);
+        const today = new Date();
         return (
           someDate.getDate() === today.getDate() &&
           someDate.getMonth() === today.getMonth() &&
@@ -245,8 +247,8 @@
         );
       }
 
-      function toMonth(monthNo) {
-        const date = new Date(2001, monthNo - 1, 1);
+      function toMonth() {
+        const date = new Date();
         return new Intl.DateTimeFormat(undefined, {
           month: "long",
         }).format(date);
